@@ -2,5 +2,8 @@
 default:
   @just --list
 
-run:
-  deno run --no-check -A src/mod.ts
+moderate:
+  just run src
+
+run *args:
+  ./src/mod.ts {{args}}
