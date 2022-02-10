@@ -1,5 +1,5 @@
 
-# moderate &nbsp; <sub><sup>A simple tool to generate `mod.ts` files</sup></sub>
+# moderate<sub><sup> &nbsp;–&nbsp; A simple tool to generate `mod.ts` files</sup></sub>
 
 Installation:
 
