@@ -12,8 +12,8 @@ export async function main() {
     .usage("moderate [options] <paths>")
     .parse();
   const config = yargvToConfig(argv);
-  const files = argv._.length ? argv._ : ".";
-  await Promise.all(argv._.map((x: string) => processRecursive(x, config)));
+  const files = argv._.length ? argv._ : ["."];
+  await Promise.all(files.map((x: string) => processRecursive(x, config)));
 }
 
 // moderate --exclude deps.ts
