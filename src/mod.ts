@@ -13,7 +13,7 @@ export async function main() {
     .parse();
   const config = yargvToConfig(argv);
   const files = argv._.length ? argv._ : ".";
-  await Promise.all(argv._.map((x: string) => processRecursive(x, config)));
+  await Promise.all(files.map((x: string) => processRecursive(x, config)));
 }
 
 // moderate --exclude deps.ts
