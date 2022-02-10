@@ -42,25 +42,27 @@ export async function processFile(file: string, baseConfig: Config) {
       subFiles.push(entry.name);
     }
   }
-  await Promise.all(subDirs.map(async (subDir) => {
-    for await (const entry of Deno.readDir(path.join(dir, subDir))) {
-      if (
-        !entry.isDirectory &&
-        modFileRegex.test(entry.name) &&
-        hasValidExtension(entry.name)
-      ) {
-        const fullName = path.posix.join(subDir, entry.name);
-        if (!isExcluded(fullName)) {
-          subFiles.push(fullName);
+  subFiles.sort();
+  subDirs.sort();
+  const subDirMods = (await Promise.all(
+    subDirs.map(async (subDir) => {
+      for await (const entry of Deno.readDir(path.join(dir, subDir))) {
+        if (
+          !entry.isDirectory &&
+          modFileRegex.test(entry.name) &&
+          hasValidExtension(entry.name)
+        ) {
+          const fullName = path.posix.join(subDir, entry.name);
+          if (!isExcluded(fullName)) {
+            return fullName;
+          }
+          break;
         }
-        break;
       }
-    }
-  }));
-  const filteredSubFiles = subFiles.filter((file) =>
-    !excludeRegexes.some((regex) => regex.test(file))
-  );
-  const newContent = generateContent(filteredSubFiles, config);
+      return null!;
+    }),
+  )).filter((x) => x !== null);
+  const newContent = generateContent([...subFiles, ...subDirMods], config);
   await Deno.writeTextFile(file, header + moderateComment + newContent);
   if (!baseConfig.quiet) {
     console.log("Processed file " + file);
