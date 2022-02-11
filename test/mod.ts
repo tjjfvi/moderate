@@ -2,5 +2,5 @@
 
 // moderate
 
-export * from "./inert-mod/mod.ts";
 export * from "./inclusion/mod.ts";
+export * from "./inert-mod/mod.ts";

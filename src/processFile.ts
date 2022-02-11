@@ -62,7 +62,7 @@ export async function processFile(file: string, baseConfig: Config) {
       return null!;
     }),
   )).filter((x) => x !== null);
-  const newContent = generateContent([...subFiles, ...subDirMods], config);
+  const newContent = generateContent([...subDirMods, ...subFiles], config);
   await Deno.writeTextFile(file, header + moderateComment + newContent);
   if (!baseConfig.quiet) {
     console.log("Processed file " + file);
