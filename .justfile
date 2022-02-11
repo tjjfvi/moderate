@@ -14,5 +14,8 @@ check:
 moderate:
   just run src
 
+test:
+  just run test
+
 run *args:
   ./src/mod.ts {{args}}
